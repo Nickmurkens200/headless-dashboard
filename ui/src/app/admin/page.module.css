@@ -1,0 +1,134 @@
+.page {
+  max-width: 900px;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  padding: 60px 0;
+}
+
+.header {
+  margin-bottom: 32px;
+}
+
+.header h1 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.header p {
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.statCard {
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.statIcon {
+  width: 48px;
+  height: 48px;
+  background: var(--accent-muted);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.statIcon svg {
+  width: 24px;
+  height: 24px;
+  color: var(--accent-primary);
+}
+
+.statIcon[data-status='success'] {
+  background: var(--success-muted);
+}
+
+.statIcon[data-status='success'] svg {
+  color: var(--success);
+}
+
+.statInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.statValue {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.statLabel {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.section {
+  margin-bottom: 32px;
+}
+
+.section h2 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.statusCard {
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.statusItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.statusLabel {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.statusValue {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.statusBadge {
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.statusBadge.online {
+  background: var(--success-muted);
+  color: var(--success);
+}
+
+.statusBadge.offline {
+  background: var(--error-muted);
+  color: var(--error);
+}
