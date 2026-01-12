@@ -88,7 +88,7 @@ docker run hello-world
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/YOUR_USERNAME/headless-dashboard.git
+git clone https://github.com/Nickmurkens200/Headless-dashboard.git
 cd headless-dashboard
 
 # 2. Run setup script (creates .env with secure defaults)
@@ -105,7 +105,7 @@ echo "Dashboard ready at http://localhost:3000"
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/YOUR_USERNAME/headless-dashboard.git
+git clone https://github.com/Nickmurkens200/Headless-dashboard.git
 cd headless-dashboard
 
 # 2. Copy environment file (or create from scratch if missing)
@@ -121,7 +121,7 @@ docker compose up -d
 ### Option 3: One-Liner (Quick Setup)
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/headless-dashboard.git && \
+git clone https://github.com/Nickmurkens200/Headless-dashboard.git && \
 cd headless-dashboard && \
 chmod +x setup.sh && ./setup.sh && \
 docker compose up -d && \
