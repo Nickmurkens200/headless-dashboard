@@ -1,4 +1,4 @@
-# Murkens Dashboard v2
+# Dashboard v2
 
 A headless, self-hosted dashboard application with enterprise-grade settings and Selfh.st icon integration. Built with a clean separation between backend (NestJS) and frontend (Next.js 14).
 
