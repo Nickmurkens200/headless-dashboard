@@ -84,34 +84,46 @@ docker run hello-world
 
 ## Quick Start
 
-### Option 1: Step by Step
+### Option 1: Using Setup Script (Recommended)
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/Nickmurkens200/Dashboard-for-self-hosted-servers.git
+git clone https://github.com/YOUR_USERNAME/headless-dashboard.git
 cd headless-dashboard
 
-# 2. Copy environment file
-cp .env.example .env
+# 2. Run setup script (creates .env with secure defaults)
+./setup.sh
 
-# 3. Generate secure JWT secret and update .env
-echo "JWT_SECRET=$(openssl rand -hex 32)"
-nano .env  # Update JWT_SECRET and DB_PASSWORD
-
-# 4. Start the dashboard
+# 3. Start the dashboard
 docker compose up -d
 
-# 5. Open in browser
+# 4. Open in browser
 echo "Dashboard ready at http://localhost:3000"
 ```
 
-### Option 2: One-Liner (Quick Setup)
+### Option 2: Manual Setup
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/YOUR_USERNAME/headless-dashboard.git
+cd headless-dashboard
+
+# 2. Copy environment file (or create from scratch if missing)
+cp .env.example .env 2>/dev/null || ./setup.sh
+
+# 3. Edit .env with your settings
+nano .env
+
+# 4. Start the dashboard
+docker compose up -d
+```
+
+### Option 3: One-Liner (Quick Setup)
 
 ```bash
 git clone https://github.com/YOUR_USERNAME/headless-dashboard.git && \
 cd headless-dashboard && \
-cp .env.example .env && \
-sed -i "s/change-this-in-production-to-a-long-random-string/$(openssl rand -hex 32)/" .env && \
+chmod +x setup.sh && ./setup.sh && \
 docker compose up -d && \
 echo "Dashboard ready at http://localhost:3000"
 ```
@@ -394,6 +406,56 @@ const getIconUrl = (service) => {
 - [ ] Use HTTPS in production (reverse proxy)
 - [ ] Configure `CORS_ORIGINS` properly
 - [ ] Review authentication mode
+
+---
+
+## Troubleshooting
+
+### Missing .env.example file
+
+If `.env.example` is missing, use the setup script instead:
+
+```bash
+chmod +x setup.sh && ./setup.sh
+```
+
+This creates a `.env` file with secure auto-generated secrets.
+
+### Check hidden files
+
+Files starting with `.` are hidden. To see all files:
+
+```bash
+ls -la
+```
+
+### Container not starting
+
+Check logs for specific service:
+
+```bash
+docker compose logs dashboard-api
+docker compose logs dashboard-ui
+docker compose logs postgres
+```
+
+### Database connection issues
+
+Reset the database:
+
+```bash
+docker compose down -v
+docker compose up -d
+```
+
+### Port already in use
+
+Change ports in `.env`:
+
+```env
+API_PORT=4001
+UI_PORT=3001
+```
 
 ---
 
