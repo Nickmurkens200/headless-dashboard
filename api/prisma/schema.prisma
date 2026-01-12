@@ -1,0 +1,145 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Authentication mode enum
+enum AuthMode {
+  NONE
+  LOCAL
+  SSO
+  MIXED
+}
+
+// User roles
+enum UserRole {
+  USER
+  ADMIN
+}
+
+// Global configuration (singleton - only one row)
+model GlobalConfig {
+  id                  String    @id @default("global")
+  appTitle            String    @default("My Dashboard")
+  baseUrl             String    @default("")
+  authMode            AuthMode  @default(NONE)
+  allowPublicRegistration Boolean @default(false)
+  
+  // SSO/OIDC Configuration stored as JSON
+  ssoProviderConfig   Json?     // { clientId, clientSecret, issuer, discoveryUrl, scopes }
+  
+  // Theme settings stored as JSON
+  themeSettings       Json?     // { mode: 'dark'|'light', primaryColor, customCss }
+  
+  // Icon source configuration
+  iconSourceUrl       String    @default("https://cdn.jsdelivr.net/gh/selfhst/icons/png/")
+  
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+}
+
+// Dashboard services/applications
+model Service {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  url         String
+  iconUrl     String?
+  iconSlug    String?  // Selfh.st icon slug (e.g., "plex", "sonarr")
+  category    String   @default("Default")
+  sortOrder   Int      @default(0)
+  isPublic    Boolean  @default(false) // Visible without authentication
+  isEnabled   Boolean  @default(true)
+  
+  // Optional health check
+  healthCheckUrl      String?
+  healthCheckInterval Int?     @default(60) // seconds
+  lastHealthCheck     DateTime?
+  lastHealthStatus    String?  // "online", "offline", "unknown"
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@index([category])
+  @@index([isPublic])
+  @@index([isEnabled])
+}
+
+// Users for local authentication
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  username      String?   @unique
+  passwordHash  String?   // Null for SSO-only users
+  displayName   String?
+  avatarUrl     String?
+  role          UserRole  @default(USER)
+  
+  // SSO linkage
+  ssoSubject    String?   @unique // Subject ID from SSO provider
+  ssoProvider   String?   // Provider name
+  
+  isActive      Boolean   @default(true)
+  lastLoginAt   DateTime?
+  
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  sessions      Session[]
+  
+  @@index([email])
+  @@index([ssoSubject])
+}
+
+// User sessions for JWT refresh tokens
+model Session {
+  id           String   @id @default(cuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  refreshToken String   @unique
+  userAgent    String?
+  ipAddress    String?
+  
+  expiresAt    DateTime
+  createdAt    DateTime @default(now())
+  
+  @@index([userId])
+  @@index([refreshToken])
+}
+
+// Categories for organizing services
+model Category {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  icon      String?
+  sortOrder Int      @default(0)
+  isPublic  Boolean  @default(false)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@index([sortOrder])
+}
+
+// Audit log for admin actions
+model AuditLog {
+  id        String   @id @default(cuid())
+  userId    String?
+  action    String
+  entity    String
+  entityId  String?
+  oldValue  Json?
+  newValue  Json?
+  ipAddress String?
+  
+  createdAt DateTime @default(now())
+  
+  @@index([userId])
+  @@index([action])
+  @@index([createdAt])
+}
