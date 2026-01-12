@@ -88,7 +88,7 @@ docker run hello-world
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/YOUR_USERNAME/headless-dashboard.git
+git clone https://github.com/Nickmurkens200/Dashboard-for-self-hosted-servers.git
 cd headless-dashboard
 
 # 2. Copy environment file
