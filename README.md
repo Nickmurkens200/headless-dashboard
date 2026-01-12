@@ -88,11 +88,11 @@ docker run hello-world
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/Nickmurkens200/headless-dashboard.git
+git clone https://github.com/YOUR_USERNAME/headless-dashboard.git
 cd headless-dashboard
 
 # 2. Run setup script (creates .env with secure defaults)
-./setup.sh
+chmod +x setup.sh && ./setup.sh
 
 # 3. Start the dashboard
 docker compose up -d
@@ -105,11 +105,11 @@ echo "Dashboard ready at http://localhost:3000"
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/Nickmurkens200/headless-dashboard.git
+git clone https://github.com/YOUR_USERNAME/headless-dashboard.git
 cd headless-dashboard
 
 # 2. Copy environment file (or create from scratch if missing)
-cp .env.example .env 2>/dev/null || ./setup.sh
+cp .env.example .env 2>/dev/null || (chmod +x setup.sh && ./setup.sh)
 
 # 3. Edit .env with your settings
 nano .env
@@ -121,7 +121,7 @@ docker compose up -d
 ### Option 3: One-Liner (Quick Setup)
 
 ```bash
-git clone https://github.com/Nickmurkens200/headless-dashboard.git && \
+git clone https://github.com/YOUR_USERNAME/headless-dashboard.git && \
 cd headless-dashboard && \
 chmod +x setup.sh && ./setup.sh && \
 docker compose up -d && \
